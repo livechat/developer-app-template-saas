@@ -1,22 +1,16 @@
 import { useEffect, useState } from 'react'
-import { Card, NumericInputField } from '@livechat/design-system'
 import FullScreenLoader from 'components/FullScreenLoader'
 import ViewContainer from 'components/ViewContainer'
 import useDeveloperApp from 'hooks/app/useDeveloperApp'
+import lcConfig from '../../livechat.config.json'
 import useLiveChatFullscreenWidget from 'hooks/products/livechat/useFullscreenWidget'
-
-type Agent = {
-  id: string
-  name: string
-  role: string
-  avatar: string
-}
+import { DeveloperAppConfig } from '@livechat/developer-sdk'
 
 function LiveChatFullscreen() {
   const developerApp = useDeveloperApp()
   const fullscreenWidget = useLiveChatFullscreenWidget()
-  const [agents, setAgents] = useState<Agent[] | null>(null)
   const [notificationsCount, setNotificationsCount] = useState(0)
+  const [customers, setCustomers] = useState<any>()
 
   useEffect(() => {
     if (fullscreenWidget) {
@@ -25,43 +19,58 @@ function LiveChatFullscreen() {
   }, [fullscreenWidget, notificationsCount])
 
   useEffect(() => {
-    if (developerApp) {
-      fetch(`${developerApp.urls.liveChatApi}/configuration/action/list_agents`, {
+    if (developerApp && fullscreenWidget) {
+      fetch(`${developerApp.urls.liveChatApi}/configuration/action/list_properties`, {
         method: 'POST',
-        body: '{}',
+        body: JSON.stringify({
+          owner_client_id: (lcConfig as DeveloperAppConfig).auth?.clientId,
+        }),
         headers: {
           'Content-Type': 'application/json',
           Authorization: `${developerApp.authorization?.data?.token_type} ${developerApp.authorization?.data?.access_token}`,
         },
       })
         .then((response) => response.json())
-        .then(setAgents)
+        .then((response) => {
+          setCustomers(response)
+          setNotificationsCount(Object.keys(response).length)
+        })
     }
-  }, [developerApp])
+  }, [developerApp, fullscreenWidget])
 
-  if (fullscreenWidget === null || developerApp === null || agents === null) {
+  if (fullscreenWidget === null || developerApp === null) {
     return <FullScreenLoader />
+  }
+
+  const tableHandler = () => {
+    for (const customer in customers) {
+      const formattedCustomerData = customers[customer].default_value.split(';')
+      const name = formattedCustomerData[0]
+      const email = formattedCustomerData[1]
+
+      return (
+        <tr>
+          <td>{name}</td>
+          <td>{email}</td>
+          <td>{customer}</td>
+        </tr>
+      )
+    }
   }
 
   return (
     <ViewContainer>
-      <h1>Fullscreen widget</h1>
-      <NumericInputField
-        min={0}
-        max={99}
-        id="notifications-count"
-        labelText="Notifications count"
-        value={String(notificationsCount)}
-        onChange={(value) => setNotificationsCount(Number(value))}
-      />
-      <h3>Agents list:</h3>
-      <div className="agents-list">
-        {agents.map((agent) => (
-          <Card key={agent.id} title={agent.name} img={agent.avatar}>
-            {agent.role}
-          </Card>
-        ))}
-      </div>
+      <h1>Customers list:</h1>
+      <table className="agents-list">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>ID</th>
+          </tr>
+        </thead>
+        <tbody>{tableHandler()}</tbody>
+      </table>
     </ViewContainer>
   )
 }
