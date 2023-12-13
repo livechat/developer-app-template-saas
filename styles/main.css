@@ -1,4 +1,5 @@
 @import url('@livechat/design-system/dist/design-system.css');
+@import url('@livechat/design-system-react-components/dist/style.css');
 
 html,
 body {
@@ -27,6 +28,10 @@ body {
   width: 100%;
 }
 
+h1 {
+  font-size: 20px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -36,13 +41,19 @@ table {
 th {
   text-align: left;
   padding: 8px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-basic-secondary);
+  color: var(--content-basic-secondary);
+  font-weight: 400;
 }
 
 tr {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-basic-secondary);
 }
 
 td {
   padding: 8px;
+}
+
+ul {
+  margin-top: 0;
 }

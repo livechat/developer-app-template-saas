@@ -5,7 +5,7 @@ import useDeveloperApp from 'hooks/app/useDeveloperApp'
 import useLiveChatFullscreenWidget from 'hooks/products/livechat/useFullscreenWidget'
 import { DeveloperApp } from '@livechat/developer-sdk'
 import { deleteCustomerProfile, fetchCustomers } from 'lib/api'
-import { Button } from '@livechat/design-system'
+import { Button } from '@livechat/design-system-react-components'
 
 interface Customer {
   name: string
@@ -53,7 +53,7 @@ function LiveChatFullscreen() {
 
   return (
     <ViewContainer>
-      <h1>Customers list:</h1>
+      <h1>Customers list</h1>
       <table className="customer-list">
         <thead>
           <tr>
@@ -70,7 +70,10 @@ function LiveChatFullscreen() {
               <td>{customer.email}</td>
               <td>{customer.id}</td>
               <td>
-                <Button onClick={async () => await handleDeleteCustomerProfile(developerApp, customer.id)}>
+                <Button
+                  kind="secondary"
+                  onClick={async () => await handleDeleteCustomerProfile(developerApp, customer.id)}
+                >
                   Delete user
                 </Button>
               </td>
