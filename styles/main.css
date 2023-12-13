@@ -23,8 +23,26 @@ body {
   padding: 16px;
 }
 
-.agents-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.customer-list {
+  width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+tr {
+  border-bottom: 1px solid #ddd;
+}
+
+td {
+  padding: 8px;
 }

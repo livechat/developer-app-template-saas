@@ -2,85 +2,50 @@ import { useEffect, useState } from 'react'
 import { Button, Card } from '@livechat/design-system'
 import FullScreenLoader from 'components/FullScreenLoader'
 import ViewContainer from 'components/ViewContainer'
-import lcConfig from '../../livechat.config.json'
 import useDeveloperApp from 'hooks/app/useDeveloperApp'
 import useLiveChatDetailsWidget from 'hooks/products/livechat/useDetailsWidget'
-import { DeveloperAppConfig } from '@livechat/developer-sdk'
+import { deleteCustomerProfile, fetchCustomers, saveCustomerProfile } from 'lib/api'
+
+export interface CustomerProfile {
+  [key: string]: {
+    default_value: string
+  }
+}
 
 function LiveChatChatDetails() {
   const developerApp = useDeveloperApp()
   const { widget, customerProfile } = useLiveChatDetailsWidget()
-  const [customers, setCustomers] = useState<string[]>([])
+  const [customers, setCustomers] = useState<CustomerProfile>({})
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (customerProfile && developerApp) {
       fetchCustomerProfiles()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [developerApp, customerProfile])
 
   if (widget === null || !developerApp || !customerProfile) {
     return <FullScreenLoader />
   }
 
-  const fetchCustomerProfiles = () => {
-    fetch(`${developerApp.urls.liveChatApi}/configuration/action/list_propertie`, {
-      method: 'POST',
-      body: JSON.stringify({
-        owner_client_id: (lcConfig as DeveloperAppConfig).auth?.clientId,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${developerApp.authorization?.data?.token_type} ${developerApp.authorization?.data?.access_token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then(setCustomers)
-      .catch((e) => console.log(e))
+  const fetchCustomerProfiles = async () => {
+    const customers = await fetchCustomers(developerApp)
+    setCustomers(customers)
   }
 
-  const handleSaveCustomerProfile = () => {
+  const handleSaveCustomerProfile = async () => {
     setIsLoading(true)
-
-    fetch(`${developerApp.urls.liveChatApi}/configuration/action/register_property`, {
-      method: 'POST',
-      body: JSON.stringify({
-        name: customerProfile.id,
-        owner_client_id: (lcConfig as DeveloperAppConfig).auth?.clientId,
-        type: 'string',
-        access: {
-          license: {
-            agent: ['read', 'write'],
-          },
-        },
-        default_value: `${customerProfile.name};${customerProfile.email}`,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${developerApp.authorization?.data?.token_type} ${developerApp.authorization?.data?.access_token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then(() => fetchCustomerProfiles())
-      .finally(() => setIsLoading(false))
+    await saveCustomerProfile(developerApp, customerProfile)
+    await fetchCustomerProfiles()
+    setIsLoading(false)
   }
 
-  const handleDeleteCustomerProfile = () => {
+  const handleDeleteCustomerProfile = async () => {
     setIsLoading(true)
-    fetch(`${developerApp.urls.liveChatApi}/configuration/action/unregister_property`, {
-      method: 'POST',
-      body: JSON.stringify({
-        name: customerProfile.id,
-        owner_client_id: (lcConfig as DeveloperAppConfig).auth?.clientId,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${developerApp.authorization?.data?.token_type} ${developerApp.authorization?.data?.access_token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then(() => fetchCustomerProfiles())
-      .finally(() => setIsLoading(false))
+    await deleteCustomerProfile(developerApp, customerProfile.id)
+    await fetchCustomerProfiles()
+    setIsLoading(false)
   }
 
   const customerExists = customerProfile?.id in customers
