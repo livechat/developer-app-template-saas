@@ -17,7 +17,7 @@ export const fetchCustomers = async (developerApp: DeveloperApp) => {
     },
   }).then((response) => {
     if (!response.ok) {
-      developerApp.features.reporting.sendError('4xx', 'list_properties')
+      developerApp.features.reports.sendError('4xx', 'list_properties')
     }
     return response.json()
   })
@@ -46,7 +46,7 @@ export const saveCustomerProfile = async (developerApp: DeveloperApp, customerPr
     },
   }).then((response) => {
     if (!response.ok) {
-      developerApp.features.reporting.sendError('4xx', 'register_property')
+      developerApp.features.reports.sendError('4xx', 'register_property')
     }
     return response.json()
   })
@@ -68,7 +68,7 @@ export const deleteCustomerProfile = async (developerApp: DeveloperApp, id: stri
     },
   }).then((response) => {
     if (!response.ok) {
-      developerApp.features.reporting.sendError('4xx', 'unregister_property')
+      developerApp.features.reports.sendError('4xx', 'unregister_property')
     }
     return response.json()
   })
