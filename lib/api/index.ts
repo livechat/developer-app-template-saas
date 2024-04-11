@@ -8,7 +8,7 @@ export const fetchCustomers = async (developerApp: DeveloperApp) => {
   const response = await fetch(`${developerApp.urls.liveChatApi}/configuration/action/list_properties`, {
     method: 'POST',
     body: JSON.stringify({
-      owner_client_id: (lcConfig as DeveloperAppConfig).auth?.clientId,
+      owner_client_id: (lcConfig as unknown as DeveloperAppConfig).blocks?.authorization?.clientId,
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ export const saveCustomerProfile = async (developerApp: DeveloperApp, customerPr
     method: 'POST',
     body: JSON.stringify({
       name: customerProfile.id,
-      owner_client_id: (lcConfig as DeveloperAppConfig).auth?.clientId,
+      owner_client_id: (lcConfig as unknown as DeveloperAppConfig).blocks?.authorization?.clientId,
       type: 'string',
       access: {
         license: {
@@ -59,7 +59,7 @@ export const deleteCustomerProfile = async (developerApp: DeveloperApp, id: stri
     method: 'POST',
     body: JSON.stringify({
       name: id,
-      owner_client_id: (lcConfig as DeveloperAppConfig).auth?.clientId,
+      owner_client_id: (lcConfig as unknown as DeveloperAppConfig).blocks?.authorization?.clientId,
     }),
     headers: {
       'Content-Type': 'application/json',
