@@ -1,25 +1,31 @@
-# <img src="https://livechat.design/images/livechat/DIGITAL%20%28RGB%29/SVG/Mark_RGB_Orange.svg" widht="24px" height="24px" /> LiveChat Developer App - Next.js Template
+# <img src="https://platform.labs.text.com/console/favicon.ico" widht="24px" height="24px" /> Text Platform Developer App - Next.js Template
 
 > This Next.js template bootstraps your [Developer Console](https://platform.text.com/console) application with a predefined configuration and a sample [LiveChat APIs](https://platform.text.com/docs) code.
 
 ## 🚀 Getting Started
 
-First, install dependecies:
+First, ensure that Text Platform Developer CLI is installed:
+
+```sh
+npm i -g @livechat/developer-cli
+```
+
+Then, install dependecies:
 
 ```sh
 npm install
 ```
 
-Then, log in to your [Developer Console](https://platform.text.com/console) account:
+Next, pull app manifest:
 
 ```sh
-npx lcdev login
+txdev app pull
 ```
 
 Now, you can open your [Developer Console](https://platform.text.com/console) app:
 
 ```sh
-npx lcdev open
+txdev app open
 ```
 
 or go to the [Developer Console](https://platform.text.com/console) and see your newly created app in action!
