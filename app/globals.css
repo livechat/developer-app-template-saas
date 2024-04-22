@@ -1,27 +1,16 @@
-@import url('@livechat/design-system/dist/design-system.css');
-@import url('@livechat/design-system-react-components/dist/style.css');
+@import url("@livechat/design-system-react-components/dist/style.css");
+@import url("@livechat/developer-ui-react/dist/index.css");
 
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: sans-serif;
+  background-color: #ffffff;
 }
 
 * {
   box-sizing: border-box;
-}
-
-.full-screen-loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-}
-
-.view-container {
-  padding: 16px;
 }
 
 .customer-list {

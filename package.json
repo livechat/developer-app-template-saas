@@ -9,24 +9,25 @@
     "start": "next start"
   },
   "dependencies": {
-    "@livechat/agent-app-sdk": "^1.6.5",
-    "@livechat/design-system": "^0.13.1",
+    "@livechat/agent-app-sdk": "^1.8.0",
     "@livechat/design-system-react-components": "^1.12.0",
-    "@livechat/developer-sdk": "^2.0.0",
+    "@livechat/developer-sdk": "^2.0.17",
+    "@livechat/developer-ui-react": "^0.0.9",
     "@livechat/helpdesk-sdk": "^1.0.3",
     "@livechat/moments-sdk": "^1.8.2",
     "camelcase": "^6.3.0",
-    "next": "12.1.0",
-    "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "next": "14.2.2",
+    "react": "^18",
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "@types/node": "^17.0.21",
-    "@types/react": "^17.0.40",
-    "@typescript-eslint/eslint-plugin": "^5.14.0",
-    "@typescript-eslint/parser": "^5.14.0",
-    "eslint": "8.10.0",
-    "eslint-config-next": "12.1.0",
-    "typescript": "^5.1.6"
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "8",
+    "eslint-config-next": "14.2.2",
+    "typescript": "^5"
   }
 }
