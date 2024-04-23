@@ -1,96 +1,16 @@
-import { App, AppConfig } from "@livechat/developer-sdk";
-import { ICustomerProfile } from "@livechat/agent-app-sdk";
-import lcConfig from "livechat.config.json";
+"use server";
 
-const getRegion = (token: string) => token.split(":")[0];
+import { Customer } from "@prisma/client";
+import prisma from "lib/prisma";
 
-export const fetchCustomers = async (app: App) => {
-  const response = await fetch(
-    `${app.urls.liveChatApi}/configuration/action/list_properties`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        owner_client_id: (lcConfig as unknown as AppConfig).blocks
-          ?.authorization?.clientId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${app.authorization?.data?.token_type} ${app.authorization?.data?.access_token}`,
-        "X-Region": getRegion(app.authorization?.data?.access_token || ""),
-      },
-    }
-  ).then((response) => {
-    if (!response.ok) {
-      app.features.reports.sendError("4xx", "list_properties");
-    }
-    return response.json();
-  });
+export async function getCustomers(): Promise<Customer[]> {
+  return await prisma.customer.findMany();
+}
 
-  return response;
-};
+export async function saveCustomer(customer: Customer): Promise<Customer> {
+  return await prisma.customer.create({ data: customer });
+}
 
-export const saveCustomerProfile = async (
-  developerApp: App,
-  customerProfile: ICustomerProfile
-) => {
-  const response = await fetch(
-    `${developerApp.urls.liveChatApi}/configuration/action/register_property`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        name: customerProfile.id,
-        owner_client_id: (lcConfig as unknown as AppConfig).blocks
-          ?.authorization?.clientId,
-        type: "string",
-        access: {
-          license: {
-            agent: ["read", "write"],
-          },
-        },
-        default_value: `${customerProfile.name};${customerProfile.email}`,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${developerApp.authorization?.data?.token_type} ${developerApp.authorization?.data?.access_token}`,
-        "X-Region": getRegion(
-          developerApp.authorization?.data?.access_token || ""
-        ),
-      },
-    }
-  ).then((response) => {
-    if (!response.ok) {
-      developerApp.features.reports.sendError("4xx", "register_property");
-    }
-    return response.json();
-  });
-
-  return response;
-};
-
-export const deleteCustomerProfile = async (developerApp: App, id: string) => {
-  const response = await fetch(
-    `${developerApp.urls.liveChatApi}/configuration/action/unregister_property`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        name: id,
-        owner_client_id: (lcConfig as unknown as AppConfig).blocks
-          ?.authorization?.clientId,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${developerApp.authorization?.data?.token_type} ${developerApp.authorization?.data?.access_token}`,
-        "X-Region": getRegion(
-          developerApp.authorization?.data?.access_token || ""
-        ),
-      },
-    }
-  ).then((response) => {
-    if (!response.ok) {
-      developerApp.features.reports.sendError("4xx", "unregister_property");
-    }
-    return response.json();
-  });
-
-  return response;
-};
+export async function deleteCustomer(customerId: string): Promise<void> {
+  await prisma.customer.delete({ where: { id: customerId } });
+}

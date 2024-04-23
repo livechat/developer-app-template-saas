@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "npx prisma generate && next build",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
@@ -15,6 +15,7 @@
     "@livechat/developer-ui-react": "^0.0.9",
     "@livechat/helpdesk-sdk": "^1.0.3",
     "@livechat/moments-sdk": "^1.8.2",
+    "@prisma/client": "^5.0.0",
     "camelcase": "^6.3.0",
     "next": "14.2.2",
     "react": "^18",
