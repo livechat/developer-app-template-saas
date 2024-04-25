@@ -5,7 +5,7 @@ import { Button, Card } from "@livechat/design-system-react-components";
 
 import { useLiveChatDetails } from "@livechat/developer-ui-react";
 import { Customer } from "@prisma/client";
-import { deleteCustomer, saveCustomer } from "lib/api";
+import { deleteCustomer, saveCustomer } from "prisma/api";
 
 interface WidgetProps {
   customers: Customer[];

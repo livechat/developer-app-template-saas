@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@livechat/design-system-react-components";
 import { useLiveChatFullscreen } from "@livechat/developer-ui-react";
 import { Customer } from "@prisma/client";
-import { deleteCustomer } from "lib/api";
+import { deleteCustomer } from "prisma/api";
 
 interface WidgetProps {
   customers: Customer[];

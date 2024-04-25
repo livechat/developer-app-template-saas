@@ -1,5 +1,5 @@
 import { LiveChatFullscreenProvider } from "@livechat/developer-ui-react";
-import { getCustomers } from "lib/api";
+import { getCustomers } from "prisma/api";
 import Widget from "./widget";
 
 export const dynamic = "force-dynamic";
