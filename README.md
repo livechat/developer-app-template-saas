@@ -45,6 +45,15 @@ Open http://localhost:3000 to view it in your browser.
 The page will reload when you make changes.
 You may also see any lint errors in the console.
 
+Before running your dev environment don't forget you generate your database models and apply migrations:
+
+```
+npm run generate
+npm run migrate
+```
+
+Keep in mind that Prisma need access to your `DATABASE_URL` in `.env` file. Prepare it manually or used `txdev app vars pull` command.
+
 ### `build`
 
 Builds the app for production to the `.next` folder.

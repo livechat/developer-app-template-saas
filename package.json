@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "npx prisma generate && npx prisma migrate deploy && next build",
+    "generate": "npx prisma generate",
+    "migrate": "npx prisma migrate deploy",
+    "build": "npm run generate && npm run migrate && next build",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
