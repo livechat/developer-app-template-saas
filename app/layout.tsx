@@ -9,7 +9,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Developer app template (NextJs)",
+  title: "Text Platform | App - Next.js SaaS boilerplate",
 };
 
 export default function RootLayout({

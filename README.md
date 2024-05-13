@@ -1,36 +1,61 @@
-# <img src="https://platform.labs.text.com/console/favicon.ico" widht="24px" height="24px" /> Text Platform Developer App - Next.js Template
+# <img src="https://platform.labs.text.com/console/favicon.ico" widht="24px" height="24px" /> Text Platform | App - Next.js SaaS boilerplate
 
-> This Next.js template bootstraps your [Developer Console](https://platform.text.com/console) application with a predefined configuration and a sample [LiveChat APIs](https://platform.text.com/docs) code.
+This template bootstraps CRM-like [Text Platform App](https://platform.text.com/console/apps) with a predefined configuration and code responsible for:
+
+- integration with [LiveChat Widgets](https://platform.text.com/docs/extending-agent-app)
+- managing and persisting LiveChat customers using database
+
+## ℹ️ Content
+
+The template is built using:
+
+- [Next.js](https://nextjs.org/) - web application framework
+- [Prisma](https://www.prisma.io/) - toolkit that simplifies database access and model management
+- [Text | Design System](https://www.npmjs.com/package/@livechat/design-system-react-components) - shared components library
+- [Text Platform | Developer CLI](https://www.npmjs.com/package/@livechat/developer-cli) - terminal tool for managing app like in [Developer Console](https://platform.text.com/console)
+- [Text Platform | Developer UI](https://www.npmjs.com/package/@livechat/developer-ui-react) - library that provides useful wrappers for:
+  - Text Platform App ([@developer-sdk](https://www.npmjs.com/package/@livechat/developer-sdk#developer-app))
+  - Text Products widgets ([@agent-app-sdk](https://www.npmjs.com/package/@livechat/agent-app-sdk), [@helpdesk-sdk](https://www.npmjs.com/package/@livechat/helpdesk-sdk))
+
+The template consists of:
+
+- [layout](app/layout.tsx) that wraps all app pages and utilizes [Text Platform | Developer UI](https://www.npmjs.com/package/@livechat/developer-ui-react#-usage) to provide cross-app access to [Text Platform App](https://www.npmjs.com/package/@livechat/developer-sdk#developer-app) instance with all of built-in features like [reporting](https://www.npmjs.com/package/@livechat/developer-sdk#reporting)
+- [page](<app/(products)/livechat/(widgets)/details/page.tsx>) for [LiveChat Details](https://platform.text.com/docs/extending-agent-app#details-section) widget - server component that loads current customer from database (if was already saved)
+  - [widget](<app/(products)/livechat/(widgets)/details/widget.tsx>) - client component that presents current customer details and triggers [server actions](prisma/api/index.ts) to save or remove it from database
+- [page](<app/(products)/livechat/(widgets)/fullscreen/page.tsx>) for [LiveChat Fullscreen](https://platform.text.com/docs/extending-agent-app#main-menu-fullscreen-app) widget - server component that loads all saved customers from database
+  - [widget](<app/(products)/livechat/(widgets)/fullscreen/widget.tsx>) - client component that presents list of saved customers and option to delete customer using [server actions](prisma/api/index.ts) to manage
+- [livechat.config.json](livechat.config.json) - contains app manifest that is used by [Text Platform | Developer CLI](https://www.npmjs.com/package/@livechat/developer-cli) to manage app
+- database
+  - [client](lib/prisma.ts) - contains Prisma client which is used by server components and [server actions](prisma/api/index.ts) to read and write to database
+  - [schema](prisma/schema.prisma) - Prisma schema file that contains data model for app and specifies how it maps to the underlying database
 
 ## 🚀 Getting Started
 
-First, ensure that Text Platform Developer CLI is installed:
+First, ensure that latest version of [Text Platform | Developer CLI](https://www.npmjs.com/package/@livechat/developer-cli) is installed on your machine:
 
 ```sh
 npm i -g @livechat/developer-cli
 ```
 
-Then, install dependecies:
+Then, install dependencies:
 
 ```sh
 npm install
 ```
 
-Next, pull app manifest:
+Next, pull latest version of your app manifest:
 
 ```sh
 txdev app pull
 ```
 
-Now, you can open your [Developer Console](https://platform.text.com/console) app:
+You can display your app in [Developer Console](https://platform.text.com/console):
 
 ```sh
 txdev app open
 ```
 
-or go to the [Developer Console](https://platform.text.com/console) and see your newly created app in action!
-
-To start local development server, run:
+or start local development server running:
 
 ```sh
 npm run dev

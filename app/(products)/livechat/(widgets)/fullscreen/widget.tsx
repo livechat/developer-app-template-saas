@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "@livechat/design-system-react-components";
-import { useLiveChatFullscreen } from "@livechat/developer-ui-react";
+import { useApp, useLiveChatFullscreen } from "@livechat/developer-ui-react";
 import { Customer } from "@prisma/client";
 import { deleteCustomer } from "prisma/api";
 
@@ -11,6 +11,7 @@ interface WidgetProps {
 }
 
 export default function Widget(props: WidgetProps) {
+  const { app } = useApp();
   const { widget } = useLiveChatFullscreen();
   const [customers, setCustomers] = useState(props.customers);
 
@@ -40,7 +41,12 @@ export default function Widget(props: WidgetProps) {
                 <Button
                   kind="secondary"
                   onClick={async () => {
-                    await deleteCustomer(customer.id);
+                    await deleteCustomer(customer.id).catch(() =>
+                      app.features.reports.sendError(
+                        "5xx",
+                        "Delete customer failed"
+                      )
+                    );
 
                     setCustomers((prevState) =>
                       prevState.filter((cus) => cus.id !== customer.id)
