@@ -20,7 +20,7 @@ export default function Page() {
         <Text as="div" size="md">
           This is the apps main page, continue with private installation to see your app in LiveChat.
         </Text>
-        <Button kind="primary" onClick={() => window.open(`https://platform.text.com/console/apps/${config.id}/installation`)}>
+        <Button kind="primary" onClick={() => window.open(`https://platform.text.com/console/apps/${config.id}/installation`, '_blank')}>
           Go to private installation
         </Button>
       </div>
