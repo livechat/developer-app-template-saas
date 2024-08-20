@@ -5,11 +5,9 @@ import {
   Heading,
   Text,
 } from "@livechat/design-system-react-components";
-import { useRouter } from "next/navigation";
+import config from "livechat.config.json";
 
 export default function Page() {
-  const router = useRouter();
-
   return (
     <div className="homepage">
       <div className="homepage-card">
@@ -20,11 +18,10 @@ export default function Page() {
           Your app has been successfully installed <span role="img">🎉</span>
         </Heading>
         <Text as="div" size="md">
-          This is the apps main page but you can&apos;t find anything
-          interesting here.
+          This is the apps main page, continue with private installation to see your app in LiveChat.
         </Text>
-        <Button kind="primary" onClick={() => router.push("/livechat/details")}>
-          See chat details
+        <Button kind="primary" onClick={() => window.open(`https://platform.text.com/console/apps/${config.id}/installation`)}>
+          Go to private installation
         </Button>
       </div>
     </div>
