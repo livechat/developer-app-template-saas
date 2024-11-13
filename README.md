@@ -10,7 +10,6 @@ This template bootstraps CRM-like [Text Platform App](https://platform.text.com/
 The template is built using:
 
 - [Next.js](https://nextjs.org/) - web application framework
-- [Prisma](https://www.prisma.io/) - toolkit that simplifies database access and model management
 - [Text | Design System](https://www.npmjs.com/package/@livechat/design-system-react-components) - shared components library
 - [Text Platform | Developer CLI](https://www.npmjs.com/package/@livechat/developer-cli) - terminal tool for managing app like in [Developer Console](https://platform.text.com/console)
 - [Text Platform | Developer UI](https://www.npmjs.com/package/@livechat/developer-ui-react) - library that provides useful wrappers for:
@@ -25,9 +24,6 @@ The template consists of:
 - [page](<app/(products)/livechat/(widgets)/fullscreen/page.tsx>) for [LiveChat Fullscreen](https://platform.text.com/docs/extending-agent-app#main-menu-fullscreen-app) widget - server component that loads all saved customers from database
   - [widget](<app/(products)/livechat/(widgets)/fullscreen/widget.tsx>) - client component that presents list of saved customers and option to delete customer using [server actions](prisma/api/index.ts) to manage
 - [livechat.config.json](livechat.config.json) - contains app manifest that is used by [Text Platform | Developer CLI](https://www.npmjs.com/package/@livechat/developer-cli) to manage app
-- database
-  - [client](lib/prisma.ts) - contains Prisma client which is used by server components and [server actions](prisma/api/index.ts) to read and write to database
-  - [schema](prisma/schema.prisma) - Prisma schema file that contains data model for app and specifies how it maps to the underlying database
 
 ## 🚀 Getting Started
 
