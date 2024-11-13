@@ -3,17 +3,14 @@
 import { Fragment, useState } from "react";
 import { Button, Card } from "@livechat/design-system-react-components";
 import { useApp, useLiveChatDetails } from "@livechat/developer-ui-react";
-import { Customer } from "@prisma/client";
-import { deleteCustomer, saveCustomer } from "prisma/api";
+import { Customer, deleteCustomer, getCustomers, saveCustomer } from "lib/api";
 
-interface WidgetProps {
-  customers: Customer[];
-}
 
-export default function Widget(props: WidgetProps) {
+export default function Widget() {
   const { app } = useApp();
   const { customerProfile } = useLiveChatDetails();
-  const [customers, setCustomers] = useState<Customer[]>(props.customers);
+
+  const [customers, setCustomers] = useState<Customer[]>(getCustomers());
 
   const customer = customers.find(
     (customer) => customer.id.toString() === customerProfile?.id
@@ -60,15 +57,10 @@ export default function Widget(props: WidgetProps) {
                   const newCustomer = {
                     id: customerProfile.id,
                     name: customerProfile.name,
-                    email: customerProfile.email ?? null,
+                    email: customerProfile?.email,
                   };
 
-                  await saveCustomer(newCustomer).catch(() =>
-                    app.features.reports.sendError(
-                      "5xx",
-                      "Save customer failed"
-                    )
-                  );
+                  saveCustomer(newCustomer)
 
                   setCustomers((prevState) => [...prevState, newCustomer]);
                 }}

@@ -3,17 +3,13 @@
 import { useEffect, useState } from "react";
 import { Button } from "@livechat/design-system-react-components";
 import { useApp, useLiveChatFullscreen } from "@livechat/developer-ui-react";
-import { Customer } from "@prisma/client";
-import { deleteCustomer } from "prisma/api";
+import { deleteCustomer, getCustomers } from "lib/api";
 
-interface WidgetProps {
-  customers: Customer[];
-}
 
-export default function Widget(props: WidgetProps) {
+export default function Widget() {
   const { app } = useApp();
   const { widget } = useLiveChatFullscreen();
-  const [customers, setCustomers] = useState(props.customers);
+  const [customers, setCustomers] = useState(getCustomers());
 
   useEffect(() => {
     widget.setNotificationBadge(customers.length);
