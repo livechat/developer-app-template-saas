@@ -24,6 +24,6 @@ export function saveCustomer(customer: Customer): void {
   localStorage.setItem(customer.id, JSON.stringify({name: customer.name, email: customer.email}));
 }
 
-export async function deleteCustomer(customerId: string): Promise<void> {
+export function deleteCustomer(customerId: string): void {
   localStorage.removeItem(customerId);
 }
